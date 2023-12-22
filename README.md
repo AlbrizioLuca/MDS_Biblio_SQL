@@ -41,7 +41,7 @@ Ce dépôt est composé de deux répertoires, il est conseillé de travailler su
    `   npm start`
    Le front-end sera accessible à l'adresse http://localhost:3000.
 
-Pour utiliser l'application veuillez vous connectez avec les credentials suivants:
+Pour utiliser l'application veuillez créer un utilisateur via l'onglet "S'inscrire" ou bien vous pouvez vous connectez avec les credentials suivants:
 
 ```
 email: admin@mail.com
