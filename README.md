@@ -49,3 +49,10 @@ Pour utiliser l'application veuillez créer un utilisateur via l'onglet "S'inscr
 email: gestionnaire@mail.com
 password: Azerty123.
 ```
+
+Vous trouverez les différentes requêtes SQL nécessaire à l'exercice dans la partie back au niveau des sous dossiers :
+
+`abonne`
+`livres`
+mais aussi
+`auth`

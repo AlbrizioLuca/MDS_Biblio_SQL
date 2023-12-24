@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 22 déc. 2023 à 04:29
+-- Généré le : dim. 24 déc. 2023 à 12:49
 -- Version du serveur : 8.0.35
 -- Version de PHP : 8.2.13
 
@@ -37800,15 +37800,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id_abonne` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_abonne` (`id_abonne`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `role`, `id_abonne`) VALUES
-(1, 'admin@mail.com', '$2b$10$v7Js1ByqfAnoGyOdHCCAP.Hc82oTMgyIXBaM20mplr9/yjWw10SYi', 'admin', NULL),
-(2, 'test@mail.com', '$2b$10$.yoH08bnON4GY6oIQ8JmMuz.nuMgDNZnB.zJ3MEa1MvXMZQSQQnMC', 'abonne', NULL);
+(1, 'gestionnaire@mail.com', '$2b$10$R5FM3WrzZBd9o9ZnQiQziuYizSxjW2r/7DywJNYqiYYzbkBXSaTUC', 'gestionnaire', NULL);
 
 --
 -- Contraintes pour les tables déchargées
