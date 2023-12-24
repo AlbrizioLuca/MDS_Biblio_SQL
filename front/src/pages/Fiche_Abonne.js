@@ -37,7 +37,7 @@ function FicheAbonne() {
 
   useEffect(() => {
     // Effectuez la requête pour obtenir la catégorie préférée de l'abonné
-    fetch(`http://localhost:5000/abonnes/${id}/top5`)
+    fetch(`http://localhost:5000/fiche/${id}/top5`)
       .then((response) => response.json())
       .then((data) => {
         console.log("data", data);
@@ -59,9 +59,11 @@ function FicheAbonne() {
         <ul>
           Voici pour vous la liste des livres les plus empruntés durant l'année
           dans la catégorie {topFive.categorie} :
-          {/* {{topFive.livres}.map((livre, index) => (
+          <br />
+          <br />
+          {topFive.livres.map((livre, index) => (
             <li key={index}>{livre.titre}</li>
-          ))} */}
+          ))}
         </ul>
       </span>
       <Link to="/abonnes">Retour vers la section abonnés</Link>

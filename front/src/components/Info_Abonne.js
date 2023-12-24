@@ -16,7 +16,7 @@ const CrudComponent = ({ fields }) => {
   const [showPassword, setShowPassword] = useState(false);
   const { id } = useParams();
 
-  const url = `http://localhost:5000/abonnes/${id}`;
+  const url = `http://localhost:5000/fiche/${id}`;
 
   // Récupération des données de l'URL via le hook useEffect
   useEffect(() => {
@@ -26,8 +26,11 @@ const CrudComponent = ({ fields }) => {
         const response = await fetch(url);
         // Conversion de la réponse en JSON
         const data = await response.json();
+
         // Mise à jour de l'état du composant avec les données récupérées
-        setData(data);
+        let tempArray = [];
+        tempArray.push(data);
+        setData(tempArray);
       } catch (error) {
         console.error(error);
       }

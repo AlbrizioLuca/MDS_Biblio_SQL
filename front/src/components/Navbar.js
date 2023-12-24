@@ -23,9 +23,9 @@ export default function Navbar() {
           <li>
             <Link to="/livres">Livres</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/admin">Admin</Link>
-          </li>
+          </li> */}
           <li>{user ? <Link onClick={handleLogout}>Déconnexion</Link> : ""}</li>
         </ul>
       </nav>

@@ -1,13 +1,22 @@
 const express = require("express");
-
 const db = require("../database/database-access");
 const router = express.Router();
 
 //! Recuperer UN user
-
 router.get("/:id", (req, res) => {
-  const sql =
-    "SELECT id, prenom, nom, date_naissance, adresse, code_postal, ville, date_inscription, date_fin_abo FROM users WHERE id = ?";
+  const sql = `SELECT 
+    id, 
+    prenom, 
+    nom, 
+    DATE_FORMAT(date_naissance, "%d-%m-%Y") AS date_naissance, 
+    adresse, 
+    code_postal, 
+    ville, 
+    DATE_FORMAT(date_inscription, "%d-%m-%Y") AS date_inscription, 
+    DATE_FORMAT(date_fin_abo, "%d-%m-%Y") AS date_fin_abo 
+FROM 
+    abonne 
+WHERE id = ?`;
   db.query(sql, [req.params.id], (err, results) => {
     if (err) throw err;
     if (results.length > 0) {
@@ -33,7 +42,7 @@ router.patch("/:id", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(nom, 10);
     const sql =
-      "UPDATE users SET prenom = ?, nom = ? , date_naissance = ? , adresse = ?, code_postal = ?, ville = ?, date_inscription = ?, date_fin_abo = ? WHERE id = ?";
+      "UPDATE abonne SET prenom = ?, nom = ? , date_naissance = ? , adresse = ?, code_postal = ?, ville = ?, date_inscription = ?, date_fin_abo = ? WHERE id = ?";
     db.query(
       sql,
       [
@@ -88,7 +97,6 @@ router.get("/:id/emprunts", (req, res) => {
 // Trouve la catégorie la plus appréciée par l'abonné
 router.get("/:id/top5", async (req, res) => {
   const idAbonne = req.params.id;
-  console.log("top5 router");
 
   // D'abord, trouvez la catégorie préférée de l'abonné
   const sqlCategorie = `SELECT livre.categorie 
@@ -100,18 +108,18 @@ router.get("/:id/top5", async (req, res) => {
     LIMIT 1`;
 
   db.query(sqlCategorie, [idAbonne], (err, results) => {
-    console.log("sqlCategorie: ", sqlCategorie);
-
     if (err) throw err;
 
+    let result = { categorie: "", livres: [] };
+
     const categoriePreferee = results[0].categorie;
-    console.log("categoriePreferee: ", categoriePreferee);
+    result.categorie = categoriePreferee;
 
     // Ensuite, retourne les 5 livres les plus empruntés dans cette catégorie sur une année
     const sqlTop5 = `SELECT livre.titre, COUNT(*) AS total_emprunts 
       FROM emprunt 
       JOIN livre ON emprunt.id_livre = livre.id 
-      WHERE livre.categorie = ${categoriePreferee} 
+      WHERE livre.categorie = "${categoriePreferee}" 
       AND emprunt.date_emprunt >= date_sub(current_date, interval 1 year) 
       AND NOT EXISTS (
         SELECT 1 
@@ -123,9 +131,10 @@ router.get("/:id/top5", async (req, res) => {
       ORDER BY total_emprunts DESC 
       LIMIT 5`;
 
-    db.query(sqlTop5, [categoriePreferee], (err, results) => {
+    db.query(sqlTop5, [categoriePreferee], (err, livres) => {
       if (err) throw err;
-      res.send(results);
+      result.livres = livres;
+      res.send(result);
     });
   });
 });
