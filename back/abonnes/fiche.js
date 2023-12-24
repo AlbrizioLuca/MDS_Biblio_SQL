@@ -3,6 +3,60 @@ const express = require("express");
 const db = require("../database/database-access");
 const router = express.Router();
 
+//! Recuperer UN user
+
+router.get("/:id", (req, res) => {
+  const sql =
+    "SELECT id, prenom, nom, date_naissance, adresse, code_postal, ville, date_inscription, date_fin_abo FROM users WHERE id = ?";
+  db.query(sql, [req.params.id], (err, results) => {
+    if (err) throw err;
+    if (results.length > 0) {
+      res.send(results[0]);
+    } else {
+      res.status(404).send("Utilisateur non trouvé");
+    }
+  });
+});
+
+//! Modifier UN user
+router.patch("/:id", async (req, res) => {
+  const {
+    prenom,
+    nom,
+    date_naissance,
+    adresse,
+    code_postal,
+    ville,
+    date_inscription,
+    date_fin_abo,
+  } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(nom, 10);
+    const sql =
+      "UPDATE users SET prenom = ?, nom = ? , date_naissance = ? , adresse = ?, code_postal = ?, ville = ?, date_inscription = ?, date_fin_abo = ? WHERE id = ?";
+    db.query(
+      sql,
+      [
+        prenom,
+        hashedPassword,
+        date_naissance,
+        adresse,
+        code_postal,
+        ville,
+        date_inscription,
+        date_fin_abo,
+        req.params.id,
+      ],
+      (err, result) => {
+        if (err) throw err;
+        res.send(result);
+      }
+    );
+  } catch {
+    res.status(500).send();
+  }
+});
+
 //! Récupération des emprunts pour un abonné spécifique
 router.get("/:id/emprunts", (req, res) => {
   const idAbonne = req.params.id;
