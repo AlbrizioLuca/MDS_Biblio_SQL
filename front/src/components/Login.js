@@ -88,9 +88,9 @@ export default function Login() {
             setUser((state) => ({ ...userObject }));
             // Stockage du token dans le localStorage
             localStorage.setItem("token", token);
-            // si l'authentification est valide afficher message et redirection vers admin
+            // si l'authentification est valide afficher message et redirection vers la liste des abonnes
             window.alert("Connexion réussie.");
-            navigate("/admin");
+            navigate("/abonnes");
           }
         });
     } catch (error) {

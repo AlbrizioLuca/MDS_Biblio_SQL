@@ -18,13 +18,13 @@ export default function Navbar() {
       <nav>
         <ul>
           <li>
-            <Link to="/admin">Admin</Link>
+            <Link to="/abonnes">Abonné(e)s</Link>
           </li>
           <li>
             <Link to="/livres">Livres</Link>
           </li>
           <li>
-            <Link to="/abonnes">Abonné(e)s</Link>
+            <Link to="/admin">Admin</Link>
           </li>
           <li>{user ? <Link onClick={handleLogout}>Déconnexion</Link> : ""}</li>
         </ul>

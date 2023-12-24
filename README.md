@@ -38,12 +38,14 @@ Ce dépôt est composé de deux répertoires, il est conseillé de travailler su
    npm install
    ```
 3. Vous pouvez ensuite lancer le serveur avec la commande :
-   `   npm start`
+   ```
+   npm start
+   ```
    Le front-end sera accessible à l'adresse http://localhost:3000.
 
-Pour utiliser l'application veuillez créer un utilisateur via l'onglet "S'inscrire" ou bien vous pouvez vous connectez avec les credentials suivants:
+Pour utiliser l'application veuillez créer un utilisateur via l'onglet "S'inscrire" ou bien vous pouvez vous connectez avec les credentials suivants :
 
 ```
-email: admin@mail.com
-password: 1234
+email: gestionnaire@mail.com
+password: Azerty123.
 ```

@@ -9,7 +9,7 @@ router.post("/", async (req, res) => {
   const { email, password } = req.body;
   try {
     // Vérifiez l'utilisateur dans la base de données
-    const sql = "SELECT email, password FROM users WHERE email = ?";
+    const sql = "SELECT email, password, role FROM users WHERE email = ?";
     db.query(sql, [email], async (err, results) => {
       if (err) throw err;
       if (results.length > 0) {
@@ -17,9 +17,13 @@ router.post("/", async (req, res) => {
 
         // Comparez le mot de passe avec le mot de passe haché dans la base de données
         if (await bcrypt.compare(password, user.password)) {
-          const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-            expiresIn: "1h",
-          });
+          const token = jwt.sign(
+            { id: user.id, role: user.role },
+            process.env.JWT_SECRET,
+            {
+              expiresIn: "1h",
+            }
+          );
           res.json({ token });
           console.log("token: ", token);
         } else {

@@ -32,27 +32,32 @@ router.get("/:id/emprunts", (req, res) => {
 });
 
 // Trouve la catégorie la plus appréciée par l'abonné
-router.get("/:id/categorie/top5", async (req, res) => {
+router.get("/:id/top5", async (req, res) => {
   const idAbonne = req.params.id;
+  console.log("top5 router");
 
   // D'abord, trouvez la catégorie préférée de l'abonné
   const sqlCategorie = `SELECT livre.categorie 
     FROM emprunt 
     JOIN livre ON emprunt.id_livre = livre.id 
-    WHERE emprunt.id_abonne = ? 
+    WHERE emprunt.id_abonne = ${idAbonne} 
     GROUP BY livre.categorie 
     ORDER BY COUNT(*) DESC 
     LIMIT 1`;
 
   db.query(sqlCategorie, [idAbonne], (err, results) => {
+    console.log("sqlCategorie: ", sqlCategorie);
+
     if (err) throw err;
+
     const categoriePreferee = results[0].categorie;
+    console.log("categoriePreferee: ", categoriePreferee);
 
     // Ensuite, retourne les 5 livres les plus empruntés dans cette catégorie sur une année
     const sqlTop5 = `SELECT livre.titre, COUNT(*) AS total_emprunts 
       FROM emprunt 
       JOIN livre ON emprunt.id_livre = livre.id 
-      WHERE livre.categorie = ? 
+      WHERE livre.categorie = ${categoriePreferee} 
       AND emprunt.date_emprunt >= date_sub(current_date, interval 1 year) 
       AND NOT EXISTS (
         SELECT 1 
